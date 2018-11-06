@@ -135,7 +135,7 @@ class ViewController: UIViewController, WKNavigationDelegate {
     func webView(_ webView: WKWebView, decidePolicyFor
         navigationAction: WKNavigationAction,
                  decisionHandler: @escaping (WKNavigationActionPolicy) -> Swift.Void) {
-        if navigationAction.request.url?.host as! String != "dev.to" {
+        if try! navigationAction.request.url?.host as! String != "dev.to" {
             let storyboard = UIStoryboard(name: "Main", bundle: nil)
             let controller = storyboard.instantiateViewController(withIdentifier: "Browser") as! BrowserViewController
             controller.destinationUrl = navigationAction.request.url
