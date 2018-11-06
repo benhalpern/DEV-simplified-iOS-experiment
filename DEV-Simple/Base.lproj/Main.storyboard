@@ -41,17 +41,31 @@
                                     <action selector="forwardButtonTapped:" destination="BYZ-38-t0r" eventType="touchUpInside" id="9ad-FS-z9q"/>
                                 </connections>
                             </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="RVf-81-qth" userLabel="Safari Button">
+                                <rect key="frame" x="298" y="617" width="52" height="64"/>
+                                <inset key="contentEdgeInsets" minX="8" minY="8" maxX="12" maxY="8"/>
+                                <state key="normal" image="Safari">
+                                    <color key="titleColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                </state>
+                                <connections>
+                                    <action selector="forwardButtonTapped:" destination="BYZ-38-t0r" eventType="touchUpInside" id="yLK-IM-Zee"/>
+                                    <action selector="safariButtonTapped:" destination="BYZ-38-t0r" eventType="touchUpInside" id="ed7-AS-Z5I"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" red="0.98823529409999999" green="0.97647058819999999" blue="0.95686274510000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <color key="tintColor" red="0.99249070569999998" green="1" blue="0.8414684389" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                         <constraints>
+                            <constraint firstItem="RVf-81-qth" firstAttribute="top" secondItem="9JM-0s-c02" secondAttribute="bottom" constant="2" id="576-Xb-h5z"/>
                             <constraint firstItem="9JM-0s-c02" firstAttribute="trailing" secondItem="6Tk-OE-BBY" secondAttribute="trailing" id="6ry-dr-ncJ"/>
                             <constraint firstItem="W7j-Fc-Qti" firstAttribute="bottom" secondItem="6Tk-OE-BBY" secondAttribute="bottom" constant="14" id="7mP-aw-k2x"/>
                             <constraint firstItem="F2D-9Y-Pox" firstAttribute="leading" secondItem="W7j-Fc-Qti" secondAttribute="trailing" constant="25" id="9IJ-xG-T3y"/>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="RVf-81-qth" secondAttribute="trailing" constant="25" id="AqX-iE-B4p"/>
                             <constraint firstItem="W7j-Fc-Qti" firstAttribute="top" secondItem="9JM-0s-c02" secondAttribute="bottom" constant="14" id="Bc4-yH-4lz"/>
                             <constraint firstItem="9JM-0s-c02" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" id="Sy1-Wh-qhs"/>
                             <constraint firstItem="9JM-0s-c02" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="cJ6-hb-iVl"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="bottom" secondItem="W7j-Fc-Qti" secondAttribute="bottom" id="mHs-8V-bOu"/>
+                            <constraint firstItem="RVf-81-qth" firstAttribute="bottom" secondItem="6Tk-OE-BBY" secondAttribute="bottom" constant="14" id="p54-h2-520"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="bottom" secondItem="F2D-9Y-Pox" secondAttribute="bottom" id="tur-xo-HlF"/>
                             <constraint firstItem="W7j-Fc-Qti" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="25" id="xQU-HT-D1Y"/>
                             <constraint firstItem="F2D-9Y-Pox" firstAttribute="top" secondItem="9JM-0s-c02" secondAttribute="bottom" constant="14" id="xtj-CZ-ElW"/>
@@ -62,6 +76,7 @@
                     <connections>
                         <outlet property="backButton" destination="W7j-Fc-Qti" id="Lm3-Hy-vy3"/>
                         <outlet property="forwardButton" destination="F2D-9Y-Pox" id="RaY-zC-YYy"/>
+                        <outlet property="safariButton" destination="RVf-81-qth" id="AAz-ky-WZJ"/>
                         <outlet property="webView" destination="9JM-0s-c02" id="P8P-92-taL"/>
                     </connections>
                 </viewController>
@@ -73,5 +88,6 @@
     <resources>
         <image name="Back" width="21" height="21"/>
         <image name="Forward" width="21" height="21"/>
+        <image name="Safari" width="32" height="32"/>
     </resources>
 </document>

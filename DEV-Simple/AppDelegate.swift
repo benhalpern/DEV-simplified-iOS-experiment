@@ -7,15 +7,20 @@
 //
 
 import UIKit
+import PushNotifications
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
     var window: UIWindow?
 
+    let pushNotifications = PushNotifications.shared
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
-        // Override point for customization after application launch.
+        self.pushNotifications.start(instanceId: "cdaf9857-fad0-4bfb-b360-64c1b2693ef3")
+        self.pushNotifications.registerForRemoteNotifications()
+        try? self.pushNotifications.subscribe(interest: "broadcast")
+        
         return true
     }
 
@@ -40,7 +45,28 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func applicationWillTerminate(_ application: UIApplication) {
         // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
     }
+    
+    func application(_ application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: Data) {
+        self.pushNotifications.registerDeviceToken(deviceToken)
+    }
+    
+    func application(_ application: UIApplication, didReceiveRemoteNotification userInfo: [AnyHashable: Any], fetchCompletionHandler completionHandler: @escaping (UIBackgroundFetchResult) -> Void) {
+        self.pushNotifications.handleNotification(userInfo: userInfo)
+        print("PUSH NOTIFICATION")
+        let strLink = (userInfo["data"] as! NSDictionary)
+        let link = strTitle.value(forKeyPath: "link")
+        // Can't figure this one out properly.
+        print(link)
+    }
+    
+    var serverURL: String?
+    
+    func load_url(server_url: String) {
+        serverURL = server_url
+        let notificationName = Notification.Name("updateWebView")
+        NotificationCenter.default.post(name: notificationName, object: nil)
+    }
 
-
+    
 }
 
