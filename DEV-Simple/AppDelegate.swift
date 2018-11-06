@@ -21,6 +21,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         self.pushNotifications.registerForRemoteNotifications()
         try? self.pushNotifications.subscribe(interest: "broadcast")
         
+//        print("Launch")
         return true
     }
 
@@ -52,11 +53,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     
     func application(_ application: UIApplication, didReceiveRemoteNotification userInfo: [AnyHashable: Any], fetchCompletionHandler completionHandler: @escaping (UIBackgroundFetchResult) -> Void) {
         self.pushNotifications.handleNotification(userInfo: userInfo)
-        print("PUSH NOTIFICATION")
-        let strLink = (userInfo["data"] as! NSDictionary)
-        let link = strLink.value(forKeyPath: "link")
-        // Can't figure this one out properly.
-        print(link)
+        let strUrl = (userInfo["data"] as! NSDictionary)
+        let url = strUrl.value(forKeyPath: "url")
+        let state = application.applicationState
+        if state == .inactive{ //Tapped by notification
+            load_url(server_url: url as! String)
+        }
     }
     
     var serverURL: String?
