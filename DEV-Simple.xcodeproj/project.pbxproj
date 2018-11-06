@@ -15,6 +15,7 @@
 		73D76751218BA66B00BD13B6 /* DEV_SimpleTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73D76750218BA66B00BD13B6 /* DEV_SimpleTests.swift */; };
 		73D7675C218BA66B00BD13B6 /* DEV_SimpleUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73D7675B218BA66B00BD13B6 /* DEV_SimpleUITests.swift */; };
 		73D7676B2190D88B00BD13B6 /* PushNotifications.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 73D7676A2190D88B00BD13B6 /* PushNotifications.framework */; };
+		73E8ACC72192165E009CE057 /* BrowserViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73E8ACC62192165E009CE057 /* BrowserViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -50,6 +51,7 @@
 		73D7675D218BA66B00BD13B6 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		73D767692190CE3900BD13B6 /* DEV-Simple.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "DEV-Simple.entitlements"; sourceTree = "<group>"; };
 		73D7676A2190D88B00BD13B6 /* PushNotifications.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = PushNotifications.framework; path = Carthage/Build/iOS/PushNotifications.framework; sourceTree = "<group>"; };
+		73E8ACC62192165E009CE057 /* BrowserViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BrowserViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -109,6 +111,7 @@
 				73D76742218BA66B00BD13B6 /* Assets.xcassets */,
 				73D76744218BA66B00BD13B6 /* LaunchScreen.storyboard */,
 				73D76747218BA66B00BD13B6 /* Info.plist */,
+				73E8ACC62192165E009CE057 /* BrowserViewController.swift */,
 			);
 			path = "DEV-Simple";
 			sourceTree = "<group>";
@@ -294,6 +297,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				73D7673E218BA66700BD13B6 /* ViewController.swift in Sources */,
+				73E8ACC72192165E009CE057 /* BrowserViewController.swift in Sources */,
 				73D7673C218BA66700BD13B6 /* AppDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

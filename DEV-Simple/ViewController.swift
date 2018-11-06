@@ -67,7 +67,6 @@ class ViewController: UIViewController, WKNavigationDelegate {
         openInBrowser()
     }
     override func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey : Any]?, context: UnsafeMutableRawPointer?) {
-        print("Navigation")
         backButton.isEnabled = webView.canGoBack
         backButton.alpha = webView.canGoBack ? 1.0 : lightAlpha
         forwardButton.isEnabled = webView.canGoForward
@@ -131,6 +130,21 @@ class ViewController: UIViewController, WKNavigationDelegate {
             }
             
         }
+    }
+    
+    func webView(_ webView: WKWebView, decidePolicyFor
+        navigationAction: WKNavigationAction,
+                 decisionHandler: @escaping (WKNavigationActionPolicy) -> Swift.Void) {
+        if navigationAction.request.url?.host as! String != "dev.to" {
+            let storyboard = UIStoryboard(name: "Main", bundle: nil)
+            let controller = storyboard.instantiateViewController(withIdentifier: "Browser") as! BrowserViewController
+            controller.destinationUrl = navigationAction.request.url
+            self.present(controller, animated: true, completion: nil)
+            decisionHandler(.cancel)
+        } else {
+            decisionHandler(.allow)
+        }
+        
     }
     
     func populateUserData() {
