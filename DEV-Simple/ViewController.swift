@@ -135,7 +135,11 @@ class ViewController: UIViewController, WKNavigationDelegate {
     func webView(_ webView: WKWebView, decidePolicyFor
         navigationAction: WKNavigationAction,
                  decisionHandler: @escaping (WKNavigationActionPolicy) -> Swift.Void) {
-        if try! navigationAction.request.url?.host as! String != "dev.to" {
+        if try! (navigationAction.request.url?.absoluteString.hasPrefix("https://github.com/login?client_id"))! {
+            decisionHandler(.allow)
+        } else if try! (navigationAction.request.url?.absoluteString.hasPrefix("https://api.twitter.com/oauth"))! {
+            decisionHandler(.allow)
+        } else if try! navigationAction.request.url?.host as! String != "dev.to" {
             let storyboard = UIStoryboard(name: "Main", bundle: nil)
             let controller = storyboard.instantiateViewController(withIdentifier: "Browser") as! BrowserViewController
             controller.destinationUrl = navigationAction.request.url
