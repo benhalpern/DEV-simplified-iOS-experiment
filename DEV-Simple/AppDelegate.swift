@@ -54,7 +54,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         self.pushNotifications.handleNotification(userInfo: userInfo)
         print("PUSH NOTIFICATION")
         let strLink = (userInfo["data"] as! NSDictionary)
-        let link = strTitle.value(forKeyPath: "link")
+        let link = strLink.value(forKeyPath: "link")
         // Can't figure this one out properly.
         print(link)
     }
