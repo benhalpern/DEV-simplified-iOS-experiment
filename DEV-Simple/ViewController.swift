@@ -72,9 +72,6 @@ class ViewController: UIViewController, WKNavigationDelegate {
         forwardButton.isEnabled = webView.canGoForward
         forwardButton.alpha = webView.canGoForward ? 1.0 : lightAlpha
         webView.scrollView.isScrollEnabled = !(webView.url?.path.hasPrefix("/connect"))!  //Remove scroll if /connect view
-        if ((webView.url?.path.hasPrefix("/notifications"))! || (webView.url?.path.hasPrefix("/connect"))!) {
-            askForNotificationPermission()
-        }
     }
     
     @objc func updateWebView() {
@@ -135,17 +132,26 @@ class ViewController: UIViewController, WKNavigationDelegate {
     func webView(_ webView: WKWebView, decidePolicyFor
         navigationAction: WKNavigationAction,
                  decisionHandler: @escaping (WKNavigationActionPolicy) -> Swift.Void) {
-        if try! (navigationAction.request.url?.absoluteString.hasPrefix("https://github.com/login?client_id"))! {
-            decisionHandler(.allow)
-        } else if try! (navigationAction.request.url?.absoluteString.hasPrefix("https://api.twitter.com/oauth"))! {
-            decisionHandler(.allow)
-        } else if try! navigationAction.request.url?.host as! String != "dev.to" {
-            let storyboard = UIStoryboard(name: "Main", bundle: nil)
-            let controller = storyboard.instantiateViewController(withIdentifier: "Browser") as! BrowserViewController
-            controller.destinationUrl = navigationAction.request.url
-            self.present(controller, animated: true, completion: nil)
-            decisionHandler(.cancel)
-        } else {
+        do {
+            let url = navigationAction.request.url
+            print("***")
+            print((url?.absoluteString)!)
+            if (url?.absoluteString)! == "about:blank" || (url?.absoluteString)! == "https://www.facebook.com/tr/" {
+                decisionHandler(.allow)
+            } else if (url?.absoluteString.hasPrefix("https://github.com/login?client_id"))! {
+                decisionHandler(.allow)
+            } else if (url?.absoluteString.hasPrefix("https://api.twitter.com/oauth"))! {
+                decisionHandler(.allow)
+            } else if url!.host as! String != "dev.to" {
+                let storyboard = UIStoryboard(name: "Main", bundle: nil)
+                let controller = storyboard.instantiateViewController(withIdentifier: "Browser") as! BrowserViewController
+                controller.destinationUrl = navigationAction.request.url
+                self.present(controller, animated: true, completion: nil)
+                decisionHandler(.cancel)
+            } else {
+                decisionHandler(.allow)
+            }
+        } catch {
             decisionHandler(.allow)
         }
         
