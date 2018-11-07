@@ -46,6 +46,10 @@ class ViewController: UIViewController, WKNavigationDelegate {
         webView.layer.shadowOffset = CGSize(width: 0.0, height: 1.0)
         webView.layer.shadowOpacity = 0.6
         webView.layer.shadowRadius = 0.0
+        if (webView != nil) {
+            NSLog("BIGLOG: Exists in viewdidload")
+        }
+
         let notificationName = Notification.Name("updateWebView")
         NotificationCenter.default.addObserver(self, selector: #selector(ViewController.updateWebView), name: notificationName, object: nil)
     }
@@ -77,10 +81,15 @@ class ViewController: UIViewController, WKNavigationDelegate {
     @objc func updateWebView() {
         let appDelegate = UIApplication.shared.delegate as! AppDelegate
         let serverURL = appDelegate.serverURL
-        print(appDelegate)
+        if isViewLoaded {
+            NSLog("BIGLOG: View loaded")
+            let url = URL(string: serverURL ?? "https://dev.to")
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
+                // Wait half a second if first launch
+                self.webView.load(URLRequest(url: url!))
+            }
+        }
         
-        let url = URL(string: serverURL ?? "https://dev.to")!
-        webView.load(URLRequest(url: url))
     }
 
     
@@ -134,15 +143,16 @@ class ViewController: UIViewController, WKNavigationDelegate {
                  decisionHandler: @escaping (WKNavigationActionPolicy) -> Swift.Void) {
         do {
             let url = navigationAction.request.url
+            print(navigationAction)
             print("***")
             print((url?.absoluteString)!)
-            if (url?.absoluteString)! == "about:blank" || (url?.absoluteString)! == "https://www.facebook.com/tr/" {
+            if (url?.absoluteString)! == "about:blank" {
                 decisionHandler(.allow)
             } else if (url?.absoluteString.hasPrefix("https://github.com/login?client_id"))! {
                 decisionHandler(.allow)
             } else if (url?.absoluteString.hasPrefix("https://api.twitter.com/oauth"))! {
                 decisionHandler(.allow)
-            } else if url!.host as! String != "dev.to" {
+            } else if (url!.host as! String != "dev.to") && navigationAction.navigationType.rawValue == 0 {
                 let storyboard = UIStoryboard(name: "Main", bundle: nil)
                 let controller = storyboard.instantiateViewController(withIdentifier: "Browser") as! BrowserViewController
                 controller.destinationUrl = navigationAction.request.url
@@ -154,7 +164,6 @@ class ViewController: UIViewController, WKNavigationDelegate {
         } catch {
             decisionHandler(.allow)
         }
-        
     }
     
     func populateUserData() {

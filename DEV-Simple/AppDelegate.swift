@@ -56,9 +56,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         let strUrl = (userInfo["data"] as! NSDictionary)
         let url = strUrl.value(forKeyPath: "url")
         let state = application.applicationState
-        if state == .inactive{ //Tapped by notification
+        if state == .inactive { //Tapped by notification
             load_url(server_url: url as! String)
         }
+        completionHandler(.noData)
     }
     
     var serverURL: String?
