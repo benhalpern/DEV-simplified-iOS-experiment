@@ -56,9 +56,14 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         let strUrl = (userInfo["data"] as! NSDictionary)
         let url = strUrl.value(forKeyPath: "url")
         let state = application.applicationState
+        if (url as! String) == "REMOVE_NOTIFICATIONS" {
+            let center = UNUserNotificationCenter.current()
+            center.removeAllDeliveredNotifications()
+        }
         if state == .inactive { //Tapped by notification
             load_url(server_url: url as! String)
         }
+        
         completionHandler(.noData)
     }
     

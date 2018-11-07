@@ -81,13 +81,10 @@ class ViewController: UIViewController, WKNavigationDelegate {
     @objc func updateWebView() {
         let appDelegate = UIApplication.shared.delegate as! AppDelegate
         let serverURL = appDelegate.serverURL
-        if isViewLoaded {
-            NSLog("BIGLOG: View loaded")
-            let url = URL(string: serverURL ?? "https://dev.to")
-            DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
-                // Wait half a second if first launch
-                self.webView.load(URLRequest(url: url!))
-            }
+        let url = URL(string: serverURL ?? "https://dev.to")
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
+            // Wait a split second if first launch (Hack, probably a race condition)
+            self.webView.load(URLRequest(url: url!))
         }
         
     }
@@ -141,11 +138,9 @@ class ViewController: UIViewController, WKNavigationDelegate {
     func webView(_ webView: WKWebView, decidePolicyFor
         navigationAction: WKNavigationAction,
                  decisionHandler: @escaping (WKNavigationActionPolicy) -> Swift.Void) {
+        // This is all pretty hacky. Basically we're opening non dev.to or oauth links in their own modal
         do {
             let url = navigationAction.request.url
-            print(navigationAction)
-            print("***")
-            print((url?.absoluteString)!)
             if (url?.absoluteString)! == "about:blank" {
                 decisionHandler(.allow)
             } else if (url?.absoluteString.hasPrefix("https://github.com/login?client_id"))! {
@@ -174,9 +169,7 @@ class ViewController: UIViewController, WKNavigationDelegate {
             if let error = error {
                 print("Error getting user data: \(error)")
             }
-            
-            
-            if let jsonString = result as? String {
+                        if let jsonString = result as? String {
                 do {
                     let jsonDecoder = JSONDecoder()
                     let user = try jsonDecoder.decode(UserData.self, from: Data(jsonString.utf8))
