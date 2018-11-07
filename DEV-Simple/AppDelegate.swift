@@ -59,8 +59,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         if (url as! String) == "REMOVE_NOTIFICATIONS" {
             let center = UNUserNotificationCenter.current()
             center.removeAllDeliveredNotifications()
-        }
-        if state == .inactive { //Tapped by notification
+        } else if state == .inactive { //Tapped by notification
             load_url(server_url: url as! String)
         }
         
