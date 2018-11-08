@@ -42,14 +42,7 @@ class ViewController: UIViewController, WKNavigationDelegate {
         webView.addObserver(self, forKeyPath: #keyPath(WKWebView.canGoBack), options: [.new, .old], context: nil)
         webView.addObserver(self, forKeyPath: #keyPath(WKWebView.canGoForward), options: [.new, .old], context: nil)
         webView.addObserver(self, forKeyPath: #keyPath(WKWebView.url), options: [.new, .old], context: nil)
-        webView.layer.shadowColor = UIColor.gray.cgColor
-        webView.layer.shadowOffset = CGSize(width: 0.0, height: 1.0)
-        webView.layer.shadowOpacity = 0.6
-        webView.layer.shadowRadius = 0.0
-        if (webView != nil) {
-            NSLog("BIGLOG: Exists in viewdidload")
-        }
-
+        addShellShadow()
         let notificationName = Notification.Name("updateWebView")
         NotificationCenter.default.addObserver(self, selector: #selector(ViewController.updateWebView), name: notificationName, object: nil)
     }
@@ -72,10 +65,11 @@ class ViewController: UIViewController, WKNavigationDelegate {
     }
     override func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey : Any]?, context: UnsafeMutableRawPointer?) {
         backButton.isEnabled = webView.canGoBack
-        backButton.alpha = webView.canGoBack ? 1.0 : lightAlpha
+        backButton.alpha = webView.canGoBack ? 0.9 : lightAlpha
         forwardButton.isEnabled = webView.canGoForward
-        forwardButton.alpha = webView.canGoForward ? 1.0 : lightAlpha
+        forwardButton.alpha = webView.canGoForward ? 0.9 : lightAlpha
         webView.scrollView.isScrollEnabled = !(webView.url?.path.hasPrefix("/connect"))!  //Remove scroll if /connect view
+        modifyShellDesign()
     }
     
     @objc func updateWebView() {
@@ -124,14 +118,11 @@ class ViewController: UIViewController, WKNavigationDelegate {
             }
             
             if let jsonString = result as? String {
+                self.modifyShellDesign()
                 if jsonString == "logged-in" {
-                    print("Logged in")
                     self.populateUserData()
-                } else if jsonString == "logged-out" {
-                    print("Logged out")
                 }
             }
-            
         }
     }
     
@@ -182,6 +173,31 @@ class ViewController: UIViewController, WKNavigationDelegate {
             }
         }
     }
-
+    
+    func modifyShellDesign() {
+        let js = "document.getElementById('page-content').getAttribute('data-current-page')"
+        webView.evaluateJavaScript(js) { result, error in
+            if let error = error {
+                print("Error getting user data: \(error)")
+            }
+            do {
+                if result as? String == "stories-show" {
+                    self.removeShellShadow()
+                } else {
+                    self.addShellShadow()
+                }
+            }
+        }
+    }
+    
+    func addShellShadow() {
+        self.webView.layer.shadowColor = UIColor.gray.cgColor
+        self.webView.layer.shadowOffset = CGSize(width: 0.0, height: 0.9)
+        self.webView.layer.shadowOpacity = 0.5
+        self.webView.layer.shadowRadius = 0.0
+    }
+    func removeShellShadow() {
+        self.webView.layer.shadowOpacity = 0.0
+    }
 }
 
