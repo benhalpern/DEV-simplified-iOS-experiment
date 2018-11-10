@@ -134,7 +134,7 @@ class ViewController: UIViewController, WKNavigationDelegate {
             let url = navigationAction.request.url
             if (url?.absoluteString)! == "about:blank" {
                 decisionHandler(.allow)
-            } else if (url?.absoluteString.hasPrefix("https://github.com/login?client_id"))! {
+            } else if (url?.absoluteString.hasPrefix("https://github.com/login"))! {
                 decisionHandler(.allow)
             } else if (url?.absoluteString.hasPrefix("https://api.twitter.com/oauth"))! {
                 decisionHandler(.allow)
